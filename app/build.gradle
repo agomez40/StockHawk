@@ -8,7 +8,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         applicationId "com.udacity.stockhawk"
@@ -50,16 +50,26 @@ check {
 }
 
 dependencies {
+    final BUTTER_KNIFE = '8.5.1'
+    final CONSTRAINT_LAYOUT = '1.0.2'
+    final GUAVA = '20.0'
+    final MP_ANDROID_CHART = 'v3.0.2'
+    final OPEN_CSV = '2.3'
+    final SUPPORT_LIBRARY = '25.3.1';
+    final TIMBER = '4.5.1'
+    final YAHOO_FINANCE = '3.6.1'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'com.google.guava:guava:20.0'
-    compile 'com.yahoofinance-api:YahooFinanceAPI:3.5.0'
-    compile 'com.jakewharton.timber:timber:4.4.0'
-    compile 'net.sf.opencsv:opencsv:2.3'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY"
+    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY"
+    compile "com.android.support:design:$SUPPORT_LIBRARY"
+    compile "com.jakewharton:butterknife:$BUTTER_KNIFE"
+    apt "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE"
+    compile "com.google.guava:guava:$GUAVA"
+    compile "com.yahoofinance-api:YahooFinanceAPI:$YAHOO_FINANCE"
+    compile "com.jakewharton.timber:timber:$TIMBER"
+    compile "net.sf.opencsv:opencsv:$OPEN_CSV"
+    compile "com.github.PhilJay:MPAndroidChart:$MP_ANDROID_CHART"
+    compile "com.android.support.constraint:constraint-layout:$CONSTRAINT_LAYOUT"
 }
