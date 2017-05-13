@@ -2,4 +2,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="half_margin">8dp</dimen>
     <dimen name="dialog_stock_edit_text_width">160dp</dimen>
+    <dimen name="nodp">0dp</dimen>
+    <dimen name="stock_value_padding">4dp</dimen>
 </resources>
