@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,6 +24,7 @@ import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.sync.QuoteSyncJob;
+import com.udacity.stockhawk.ui.detail.StockDetailActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +62,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
+
+        // Navigate to the detail activity
+        Intent intent = new Intent(this, StockDetailActivity.class);
+        intent.putExtra(getString(R.string.pref_symbol_key), symbol);
+        startActivity(intent);
     }
 
     /**
