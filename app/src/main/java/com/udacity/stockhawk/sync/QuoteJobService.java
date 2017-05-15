@@ -6,9 +6,18 @@ import android.content.Intent;
 
 import timber.log.Timber;
 
+/**
+ * A scheduled Job to perform local syncs of Quotes.
+ *
+ * @version 1.0.0 2017/05/15
+ * @see JobService
+ * @since 1.0.0 2017/05/15
+ */
 public class QuoteJobService extends JobService {
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         Timber.d("Intent handled");
@@ -17,10 +26,11 @@ public class QuoteJobService extends JobService {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         return false;
     }
-
-
 }

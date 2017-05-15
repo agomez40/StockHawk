@@ -1,11 +1,16 @@
 package com.udacity.stockhawk.data;
 
-
 import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.google.common.collect.ImmutableList;
 
+/**
+ * Defines the SQLite Database schema, the ContentProvider authorities, and URIs.
+ *
+ * @version 1.0.0 2017/05/15
+ * @since 1.0.0 2017/05/15
+ */
 public final class Contract {
 
     static final String AUTHORITY = "com.udacity.stockhawk";
@@ -13,9 +18,22 @@ public final class Contract {
     static final String PATH_QUOTE_WITH_SYMBOL = "quote/*";
     private static final Uri BASE_URI = Uri.parse("content://" + AUTHORITY);
 
+    /**
+     * Constructor
+     *
+     * @since 1.0.0 2017/05/15
+     */
     private Contract() {
+        // Required empty constructor
     }
 
+    /**
+     * Defines the Quote schema and URIs.
+     *
+     * @version 1.0.0 2017/05/15
+     * @see BaseColumns
+     * @since 1.0.0 2017/05/15
+     */
     @SuppressWarnings("unused")
     public static final class Quote implements BaseColumns {
 
@@ -48,8 +66,5 @@ public final class Contract {
         static String getStockFromUri(Uri queryUri) {
             return queryUri.getLastPathSegment();
         }
-
-
     }
-
 }

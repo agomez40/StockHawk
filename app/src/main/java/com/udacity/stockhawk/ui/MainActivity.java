@@ -28,6 +28,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+/**
+ * Main application view, shows a list of tracked Stocks.
+ *
+ * @version 1.0.0 2017/05/15
+ * @see AppCompatActivity
+ * @see LoaderManager
+ * @see SwipeRefreshLayout
+ * @see StockAdapter
+ * @since 1.0.0 2017/05/15
+ */
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         SwipeRefreshLayout.OnRefreshListener,
         StockAdapter.StockAdapterOnClickHandler {
@@ -44,11 +54,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     TextView error;
     private StockAdapter adapter;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +107,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onRefresh() {
 
@@ -131,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(this,
@@ -139,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 null, null, Contract.Quote.COLUMN_SYMBOL);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         swipeRefreshLayout.setRefreshing(false);
@@ -149,7 +174,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         adapter.setCursor(data);
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         swipeRefreshLayout.setRefreshing(false);
@@ -166,6 +193,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_settings, menu);
@@ -174,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

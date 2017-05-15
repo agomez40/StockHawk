@@ -20,13 +20,22 @@ import com.udacity.stockhawk.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
+/**
+ * Custom dialog, provides a form to add new Stocks.
+ *
+ * @version 1.0.0 2017/05/15
+ * @see DialogFragment
+ * @since 1.0.0 2017/05/15
+ */
 public class AddStockDialog extends DialogFragment {
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.dialog_stock)
     EditText stock;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -65,6 +74,11 @@ public class AddStockDialog extends DialogFragment {
         return dialog;
     }
 
+    /**
+     * Process the click event when adding a new stock to track.
+     *
+     * @since 1.0.0 2017/05/15
+     */
     private void addStock() {
         Activity parent = getActivity();
         if (parent instanceof MainActivity) {
@@ -72,6 +86,4 @@ public class AddStockDialog extends DialogFragment {
         }
         dismissAllowingStateLoss();
     }
-
-
 }

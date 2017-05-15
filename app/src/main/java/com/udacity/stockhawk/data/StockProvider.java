@@ -10,16 +10,33 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-
+/**
+ * Provides Stock content to the application, or other applications.
+ *
+ * @version 1.0.0 2017/05/15
+ * @see ContentProvider
+ * @since 1.0.0 2017/05/15
+ */
 public class StockProvider extends ContentProvider {
 
+    // Uri Matcher value, gets the stored Quotes
     private static final int QUOTE = 100;
+
+    // Uri Matcher value, gets a Quote by
     private static final int QUOTE_FOR_SYMBOL = 101;
 
+    // The UriMatcher
     private static final UriMatcher uriMatcher = buildUriMatcher();
 
+    // The SQLite Helper
     private DbHelper dbHelper;
 
+    /**
+     * Builds a {@link UriMatcher} instance.
+     *
+     * @return The new {@link UriMatcher}
+     * @since 1.0.0 2017/05/15
+     */
     private static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(Contract.AUTHORITY, Contract.PATH_QUOTE, QUOTE);
@@ -27,13 +44,18 @@ public class StockProvider extends ContentProvider {
         return matcher;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onCreate() {
         dbHelper = new DbHelper(getContext());
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
@@ -70,19 +92,25 @@ public class StockProvider extends ContentProvider {
         }
 
         Context context = getContext();
-        if (context != null){
+        if (context != null) {
             returnCursor.setNotificationUri(context.getContentResolver(), uri);
         }
 
         return returnCursor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
@@ -103,13 +131,16 @@ public class StockProvider extends ContentProvider {
         }
 
         Context context = getContext();
-        if (context != null){
+        if (context != null) {
             context.getContentResolver().notifyChange(uri, null);
         }
 
         return returnUri;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -142,7 +173,7 @@ public class StockProvider extends ContentProvider {
 
         if (rowsDeleted != 0) {
             Context context = getContext();
-            if (context != null){
+            if (context != null) {
                 context.getContentResolver().notifyChange(uri, null);
             }
         }
@@ -150,11 +181,17 @@ public class StockProvider extends ContentProvider {
         return rowsDeleted;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
 
@@ -186,7 +223,5 @@ public class StockProvider extends ContentProvider {
             default:
                 return super.bulkInsert(uri, values);
         }
-
-
     }
 }

@@ -28,6 +28,12 @@ import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 import yahoofinance.quotes.stock.StockQuote;
 
+/**
+ * A Job implementation to fetch Quote data asynchronously.
+ *
+ * @version 1.0.0 2017/05/15
+ * @since 1.0.0 2017/05/15
+ */
 public final class QuoteSyncJob {
 
     private static final int ONE_OFF_ID = 2;
@@ -37,9 +43,20 @@ public final class QuoteSyncJob {
     private static final int PERIODIC_ID = 1;
     private static final int YEARS_OF_HISTORY = 2;
 
+    /**
+     * Constructor
+     *
+     * @since 1.0.0 2017/05/15
+     */
     private QuoteSyncJob() {
     }
 
+    /**
+     * Gets the Quotes.
+     *
+     * @param context The application context.
+     * @since 1.0.0 2017/05/15
+     */
     static void getQuotes(Context context) {
 
         Timber.d("Running sync job");
@@ -97,8 +114,6 @@ public final class QuoteSyncJob {
                 quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
                 quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
                 quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
-
-
                 quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
 
                 quoteCVs.add(quoteCV);
@@ -118,31 +133,42 @@ public final class QuoteSyncJob {
         }
     }
 
+    /**
+     * Schedules the task as Periodic.
+     *
+     * @param context The application context.
+     * @since 1.0.0 2017/05/15
+     */
     private static void schedulePeriodic(Context context) {
         Timber.d("Scheduling a periodic task");
 
-
         JobInfo.Builder builder = new JobInfo.Builder(PERIODIC_ID, new ComponentName(context, QuoteJobService.class));
-
 
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setPeriodic(PERIOD)
                 .setBackoffCriteria(INITIAL_BACKOFF, JobInfo.BACKOFF_POLICY_EXPONENTIAL);
 
-
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
         scheduler.schedule(builder.build());
     }
 
-
+    /**
+     * Initializes the task.
+     *
+     * @param context The application context.
+     * @since 1.0.0 2017/05/15
+     */
     public static synchronized void initialize(final Context context) {
-
         schedulePeriodic(context);
         syncImmediately(context);
-
     }
 
+    /**
+     * Performs an immediate sync of Quotes.
+     *
+     * @param context The application context.
+     * @since 1.0.0 2017/05/15
+     */
     public static synchronized void syncImmediately(Context context) {
 
         ConnectivityManager cm =
@@ -163,10 +189,6 @@ public final class QuoteSyncJob {
             JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 
             scheduler.schedule(builder.build());
-
-
         }
     }
-
-
 }
