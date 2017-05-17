@@ -1,0 +1,174 @@
+package com.udacity.stockhawk.ui.widget;
+
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Binder;
+import android.widget.AdapterView;
+import android.widget.RemoteViews;
+import android.widget.RemoteViewsService;
+
+import com.udacity.stockhawk.R;
+import com.udacity.stockhawk.data.Contract;
+import com.udacity.stockhawk.data.PrefUtils;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class StockWidgetRemoteService extends RemoteViewsService {
+    @Override
+    public RemoteViewsFactory onGetViewFactory(Intent intent) {
+        return new ListRemoteViewFactory();
+    }
+
+    private class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
+        private Cursor stockCursor = null;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onCreate() {
+
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onDataSetChanged() {
+            // Close the previous cursor
+            if (stockCursor != null) {
+                stockCursor.close();
+            }
+
+            // Binder
+            final long identityToken = Binder.clearCallingIdentity();
+
+            // Fill the data into a new cursor instance
+            stockCursor = getContentResolver().query(Contract.Quote.URI,
+                    Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
+                    null,
+                    null,
+                    Contract.Quote.COLUMN_SYMBOL);
+
+            // Bind the data to the remote view
+            Binder.restoreCallingIdentity(identityToken);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onDestroy() {
+            // Close the cursor to avoid leaks
+            if (stockCursor != null) {
+                stockCursor.close();
+                stockCursor = null;
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int getCount() {
+            return stockCursor == null ? 0 : stockCursor.getCount();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public RemoteViews getViewAt(int position) {
+            if (position == AdapterView.INVALID_POSITION || stockCursor == null
+                    || !stockCursor.moveToPosition(position)) {
+                return null;
+            }
+
+            RemoteViews remoteViews = new RemoteViews(getPackageName(),
+                    R.layout.list_item_quote);
+
+            String symbol = stockCursor.getString(Contract.Quote.POSITION_SYMBOL);
+            float rawPrice = stockCursor.getFloat(Contract.Quote.POSITION_PRICE);
+            float rawAbsoluteChange = stockCursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
+            float rawPercentageChange = stockCursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
+
+            int drawable;
+            if (rawAbsoluteChange > 0) {
+                drawable = R.drawable.percent_change_pill_green;
+            } else {
+                drawable = R.drawable.percent_change_pill_red;
+            }
+
+            DecimalFormat dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
+            DecimalFormat dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
+            dollarFormatWithPlus.setPositivePrefix("+$");
+            DecimalFormat percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
+            percentageFormat.setMaximumFractionDigits(2);
+            percentageFormat.setMinimumFractionDigits(2);
+            percentageFormat.setPositivePrefix("+");
+
+            String price = dollarFormat.format(rawPrice);
+            String change = dollarFormatWithPlus.format(rawAbsoluteChange);
+            String percentage = percentageFormat.format(rawPercentageChange / 100);
+
+            remoteViews.setTextViewText(R.id.symbol, symbol);
+            remoteViews.setTextViewText(R.id.price, price);
+
+            if (PrefUtils.getDisplayMode(getApplicationContext())
+                    .equals(getApplicationContext().getString(R.string.pref_display_mode_absolute_key))) {
+                remoteViews.setTextViewText(R.id.change, change);
+            } else {
+                remoteViews.setTextViewText(R.id.change, percentage);
+            }
+
+            remoteViews.setInt(R.id.change, "setBackgroundResource", drawable);
+            remoteViews.setInt(R.id.list_item_quote, "setBackgroundResource", R.color.grey200);
+
+            final Intent fillInIntent = new Intent();
+            Uri stockUri = Contract.Quote.makeUriForStock(symbol);
+            fillInIntent.setData(stockUri);
+
+            remoteViews.setOnClickFillInIntent(R.id.list_item_quote, fillInIntent);
+            return remoteViews;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public RemoteViews getLoadingView() {
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int getViewTypeCount() {
+            return 0;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public long getItemId(int position) {
+            if (stockCursor.moveToPosition(position)) {
+                return stockCursor.getLong(Contract.Quote.POSITION_ID);
+            } else {
+                return position;
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+    }
+}

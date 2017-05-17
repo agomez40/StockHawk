@@ -4,6 +4,9 @@
     <dimen name="dialog_stock_edit_text_width">160dp</dimen>
     <dimen name="nodp">0dp</dimen>
     <dimen name="stock_value_padding">4dp</dimen>
-    <dimen name="widget_height">100dp</dimen>
-    <dimen name="widget_width">250dp</dimen>
+    <dimen name="widget_height">250dp</dimen>
+    <dimen name="widget_width">180dp</dimen>
+    <dimen name="widget_min_resize_height">100dp</dimen>
+    <dimen name="widget_min_resize_width">150dp</dimen>
+    <dimen name="widget_margin">8dp</dimen>
 </resources>
