@@ -81,6 +81,11 @@ public final class QuoteSyncJob {
             Map<String, Stock> quotes = YahooFinance.get(stockArray);
             Iterator<String> iterator = stockCopy.iterator();
 
+            // Check if the quotes exist, might be an error or API down error
+            if (quotes.isEmpty()) {
+                return;
+            }
+
             Timber.d(quotes.toString());
 
             ArrayList<ContentValues> quoteCVs = new ArrayList<>();
