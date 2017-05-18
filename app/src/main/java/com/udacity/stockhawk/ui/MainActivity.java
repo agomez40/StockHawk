@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -63,9 +64,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onClick(String symbol) {
         Timber.d("Symbol clicked: %s", symbol);
 
-        // Navigate to the detail activity
+        // Navigate to the detail activity, pass the clicked symbol URI
         Intent intent = new Intent(this, StockDetailActivity.class);
-        intent.putExtra(getString(R.string.pref_symbol_key), symbol);
+
+        Uri clickedUri = Contract.Quote.makeUriForStock(symbol);
+        intent.setData(clickedUri);
         startActivity(intent);
     }
 

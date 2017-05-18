@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Stock Hawk</string>
+    <string name="title_widget" translatable="false">@string/app_name</string>
 
     <!-- Shared Preferences keys, do not translate -->
     <string name="pref_stocks_initialized_key" translatable="false">initialized</string>
@@ -9,6 +10,7 @@
     <string name="pref_display_mode_absolute_key" translatable="false">absolute</string>
     <string name="pref_display_mode_percentage_key" translatable="false">percentage</string>
     <string name="pref_symbol_key" translatable="false">symbol</string>
+    <string name="action_change_units">@string/pref_display_mode_key</string>
 
     <!--Default stock names-->
     <string name="default_stocks_yahoo">YHOO</string>
@@ -16,22 +18,29 @@
     <string name="default_stocks_microsoft">MSFT</string>
     <string name="default_stocks_facebook">FB</string>
 
-
-    <string name="action_change_units">@string/pref_display_mode_key</string>
-
-
+    <!-- UI labels and titles -->
     <string name="dialog_title">Add Stock</string>
     <string name="dialog_hint">Symbol (e.g. GOOG)</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_add">Add</string>
+    <string name="tab_title_five_days">5 Days</string>
+    <string name="tab_title_one_week">1 Week</string>
+    <string name="tab_title_one_month">1 Month</string>
 
+    <!-- Error messages -->
     <string name="error_no_network">No network connectivity! Will load stock cursor when the network is available.</string>
     <string name="error_no_stocks">No stocks added! Hit the floating action button to add one.</string>
+    <string name="error_empty_stock_list">No stocks to display.</string>
 
+    <!-- User feedback messages -->
     <string name="toast_stock_added_no_connectivity">Symbol %s added. Will refresh when network available.</string>
     <string name="toast_no_connectivity">Will refresh when network available.</string>
+
+    <!-- Content descriptions for accessibility -->
     <string name="description_add_stock">Add a new stock</string>
-    <string name="title_widget">StockHawk</string>
-    <string name="empty_stock_list">No stocks to display.</string>
+
+    <!-- Dummy strings, used by to design the UI -->
+    <string name="dummy_stock_name" translatable="false">Yahoo Inc.</string>
+    <string name="dummy_price" translatable="false">$300.00</string>
 
 </resources>

@@ -9,4 +9,5 @@
     <dimen name="widget_min_resize_height">100dp</dimen>
     <dimen name="widget_min_resize_width">150dp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="appbar_elevation">2dp</dimen>
 </resources>
