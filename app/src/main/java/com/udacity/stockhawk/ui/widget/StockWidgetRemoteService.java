@@ -11,18 +11,32 @@ import android.widget.RemoteViewsService;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.util.AppUtils;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
-
+/**
+ * @author Luis Alberto Gómez Rodríguez (lagomez40@gmail.com)
+ * @version 1.0.0 2017/05/18
+ * @since 1.0.0 2017/05/18
+ */
 public class StockWidgetRemoteService extends RemoteViewsService {
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new ListRemoteViewFactory();
     }
 
+    /**
+     * Remote service factory implementation, allows the widget to refresh data and update the View.
+     *
+     * @author Luis Alberto Gómez Rodríguez (lagomez40@gmail.com)
+     * @version 1.0.0 2017/05/18
+     * @since 1.0.0 2017/05/18
+     */
     private class ListRemoteViewFactory implements RemoteViewsService.RemoteViewsFactory {
+        // The cursor
         private Cursor stockCursor = null;
 
         /**
@@ -30,7 +44,7 @@ public class StockWidgetRemoteService extends RemoteViewsService {
          */
         @Override
         public void onCreate() {
-
+            // nothing to do here
         }
 
         /**
@@ -102,17 +116,9 @@ public class StockWidgetRemoteService extends RemoteViewsService {
                 drawable = R.drawable.percent_change_pill_red;
             }
 
-            DecimalFormat dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-            DecimalFormat dollarFormatWithPlus = (DecimalFormat) NumberFormat.getCurrencyInstance(Locale.US);
-            dollarFormatWithPlus.setPositivePrefix("+$");
-            DecimalFormat percentageFormat = (DecimalFormat) NumberFormat.getPercentInstance(Locale.getDefault());
-            percentageFormat.setMaximumFractionDigits(2);
-            percentageFormat.setMinimumFractionDigits(2);
-            percentageFormat.setPositivePrefix("+");
-
-            String price = dollarFormat.format(rawPrice);
-            String change = dollarFormatWithPlus.format(rawAbsoluteChange);
-            String percentage = percentageFormat.format(rawPercentageChange / 100);
+            String price = AppUtils.formatMoney(rawPrice, null, false);
+            String change = AppUtils.formatMoney(rawAbsoluteChange, null, true);
+            String percentage = AppUtils.percentageFormat(rawPercentageChange, null, true);
 
             remoteViews.setTextViewText(R.id.symbol, symbol);
             remoteViews.setTextViewText(R.id.price, price);
