@@ -1,9 +1,11 @@
 package com.udacity.stockhawk.ui;
 
 import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @BindView(R.id.error)
     TextView error;
     private StockAdapter adapter;
+    private BroadcastReceiver refreshReceiver;
 
     /**
      * {@inheritDoc}
@@ -109,8 +112,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getContentResolver().delete(Contract.Quote.makeUriForStock(symbol), null, null);
             }
         }).attachToRecyclerView(stockRecyclerView);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (QuoteSyncJob.ACTION_SYMBOL_NOT_FOUND.equals(intent.getAction())) {
+                    Toast.makeText(context, R.string.toast_invalid_symbol, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
 
+        IntentFilter filterSend = new IntentFilter();
+        filterSend.addAction(QuoteSyncJob.ACTION_SYMBOL_NOT_FOUND);
+        registerReceiver(refreshReceiver, filterSend);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(refreshReceiver);
     }
 
     private boolean networkUp() {
@@ -232,10 +259,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Widget stuff
             int widgetIDs[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), StockWidgetProvider.class));
             for (int i : widgetIDs) {
-                AppWidgetManager.getInstance(getApplication()).notifyAppWidgetViewDataChanged(i, R.id.lv_stock_widget);
+                AppWidgetManager.getInstance(getApplication()).notifyAppWidgetViewDataChanged(i, R.id.widget_list);
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -40,10 +40,11 @@ public class StockWidgetProvider extends AppWidgetProvider {
                     .addNextIntentWithParentStack(clickIntent)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            remoteViews.setPendingIntentTemplate(R.id.lv_stock_widget, pendingIntentTemplate);
-            remoteViews.setEmptyView(R.id.lv_stock_widget, R.id.tv_list_empty);
+            remoteViews.setPendingIntentTemplate(R.id.widget_list, pendingIntentTemplate);
+            remoteViews.setEmptyView(R.id.widget_list, R.id.widget_empty);
             remoteViews.setInt(R.id.stock_widget_content, "setBackgroundResource", R.color.grey200);
-            remoteViews.setContentDescription(R.id.lv_stock_widget, context.getString(R.string.description_widget_item));
+
+            remoteViews.setContentDescription(R.id.widget_list, context.getString(R.string.description_widget_item));
 
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
@@ -58,28 +59,18 @@ public class StockWidgetProvider extends AppWidgetProvider {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
                     new ComponentName(context, getClass()));
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.lv_stock_widget);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
         }
     }
 
-    /**
-     *
-     * @param context
-     * @param views
-     */
     private void setRemoteAdapter(Context context, @NonNull final RemoteViews views) {
-        views.setRemoteAdapter(R.id.lv_stock_widget,
+        views.setRemoteAdapter(R.id.widget_list,
                 new Intent(context, StockWidgetRemoteService.class));
     }
 
-    /**
-     *
-     * @param context
-     * @param views
-     */
     @SuppressWarnings("deprecation")
     private void setRemoteAdapterV11(Context context, @NonNull final RemoteViews views) {
-        views.setRemoteAdapter(0, R.id.lv_stock_widget,
+        views.setRemoteAdapter(0, R.id.widget_list,
                 new Intent(context, StockWidgetRemoteService.class));
     }
 }

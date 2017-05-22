@@ -102,18 +102,17 @@ public class StockWidgetRemoteService extends RemoteViewsService {
             }
 
             RemoteViews remoteViews = new RemoteViews(getPackageName(),
-                    R.layout.list_item_quote);
+                    R.layout.widget_list_item);
 
             String symbol = stockCursor.getString(Contract.Quote.POSITION_SYMBOL);
             float rawPrice = stockCursor.getFloat(Contract.Quote.POSITION_PRICE);
             float rawAbsoluteChange = stockCursor.getFloat(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
             float rawPercentageChange = stockCursor.getFloat(Contract.Quote.POSITION_PERCENTAGE_CHANGE);
 
-            int drawable;
             if (rawAbsoluteChange > 0) {
-                drawable = R.drawable.percent_change_pill_green;
+                remoteViews.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_green);
             } else {
-                drawable = R.drawable.percent_change_pill_red;
+                remoteViews.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_green);
             }
 
             String price = AppUtils.formatMoney(rawPrice, null, false);
@@ -130,13 +129,11 @@ public class StockWidgetRemoteService extends RemoteViewsService {
                 remoteViews.setTextViewText(R.id.change, percentage);
             }
 
-            remoteViews.setInt(R.id.change, "setBackgroundResource", drawable);
-
             final Intent fillInIntent = new Intent();
             Uri stockUri = Contract.Quote.makeUriForStock(symbol);
             fillInIntent.setData(stockUri);
 
-            remoteViews.setOnClickFillInIntent(R.id.list_item_quote, fillInIntent);
+            remoteViews.setOnClickFillInIntent(R.id.widget_list_item, fillInIntent);
             return remoteViews;
         }
 
@@ -145,7 +142,7 @@ public class StockWidgetRemoteService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getLoadingView() {
-            return new RemoteViews(getPackageName(), R.layout.list_item_quote);
+            return new RemoteViews(getPackageName(), R.layout.widget_list_item);
         }
 
         /**
