@@ -27,4 +27,13 @@
         <item name="android:textSize">25sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="StockSymbolTextStyleDark" parent="StockSymbolTextStyle">
+        <item name="android:textColor">@color/grey900</item>
+    </style>
+
+    <style name="BidPriceTextStyleDark" parent="BidPriceTextStyle">
+        <item name="android:textColor">@color/grey900</item>
+    </style>
+
 </resources>

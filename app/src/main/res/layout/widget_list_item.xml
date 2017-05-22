@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/symbol"
+        style="@style/StockSymbolTextStyleDark"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/nodp"
+        android:layout_marginStart="@dimen/nodp"
+        android:layout_marginTop="@dimen/nodp"
+        android:gravity="start|center_vertical"
+        tools:text="GOOG" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/price"
+            style="@style/BidPriceTextStyleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/nodp"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:layout_marginStart="@dimen/nodp"
+            android:layout_marginTop="@dimen/nodp"
+            android:contentDescription="@string/description_price"
+            tools:text="1000.00" />
+
+        <TextView
+            android:id="@+id/change"
+            style="@style/PercentChangeTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/nodp"
+            android:layout_marginEnd="@dimen/nodp"
+            android:layout_marginTop="@dimen/nodp"
+            android:background="@drawable/percent_change_pill_green"
+            android:contentDescription="@string/description_change"
+            android:paddingLeft="@dimen/stock_value_padding"
+            android:paddingRight="@dimen/stock_value_padding"
+            tools:text="100%" />
+    </LinearLayout>
+</LinearLayout>
