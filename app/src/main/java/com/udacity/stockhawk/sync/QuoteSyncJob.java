@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
+import com.udacity.stockhawk.mock.MockUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,8 +106,13 @@ public final class QuoteSyncJob {
 
                 // WARNING! Don't request historical data for a stock that doesn't exist!
                 // The request will hang forever X_x
+
                 // TODO uncomment this block of code, when the yahoo API works
-                /*  List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
+                // it seems it will not work agains, so I will be using mocked data provided by the
+                // udacity team <3
+                /*  List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY); */
+
+                List<HistoricalQuote> history = MockUtils.getHistory();
 
                 StringBuilder historyBuilder = new StringBuilder();
 
@@ -115,10 +121,7 @@ public final class QuoteSyncJob {
                     historyBuilder.append(", ");
                     historyBuilder.append(it.getClose());
                     historyBuilder.append("\n");
-                }*/
-
-                // This is only for testing, we are going to use historic data from a dummy file on assets
-                // The file only includes data for YHOO stocks, thanks to Alex Holliday :)
+                }
 
                 ContentValues quoteCV = new ContentValues();
                 quoteCV.put(Contract.Quote.COLUMN_SYMBOL, symbol);
@@ -126,7 +129,7 @@ public final class QuoteSyncJob {
                 quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
                 quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
                 quoteCV.put(Contract.Quote.COLUMN_STOCK_NAME, stockName);
-                quoteCV.put(Contract.Quote.COLUMN_HISTORY, "");
+                quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
 
                 quoteCVs.add(quoteCV);
 

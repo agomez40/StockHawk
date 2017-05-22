@@ -131,7 +131,6 @@ public class StockWidgetRemoteService extends RemoteViewsService {
             }
 
             remoteViews.setInt(R.id.change, "setBackgroundResource", drawable);
-            remoteViews.setInt(R.id.list_item_quote, "setBackgroundResource", R.color.grey200);
 
             final Intent fillInIntent = new Intent();
             Uri stockUri = Contract.Quote.makeUriForStock(symbol);
@@ -146,7 +145,7 @@ public class StockWidgetRemoteService extends RemoteViewsService {
          */
         @Override
         public RemoteViews getLoadingView() {
-            return null;
+            return new RemoteViews(getPackageName(), R.layout.list_item_quote);
         }
 
         /**
@@ -154,7 +153,7 @@ public class StockWidgetRemoteService extends RemoteViewsService {
          */
         @Override
         public int getViewTypeCount() {
-            return 0;
+            return 1;
         }
 
         /**

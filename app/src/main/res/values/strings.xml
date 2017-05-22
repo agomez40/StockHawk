@@ -26,6 +26,7 @@
     <string name="tab_title_five_days">5 Days</string>
     <string name="tab_title_one_week">1 Week</string>
     <string name="tab_title_one_month">1 Month</string>
+    <string name="symbol_detail_title">%s History</string>
 
     <!-- Error messages -->
     <string name="error_no_network">No network connectivity! Will load stock cursor when the network is available.</string>
@@ -35,12 +36,19 @@
     <!-- User feedback messages -->
     <string name="toast_stock_added_no_connectivity">Symbol %s added. Will refresh when network available.</string>
     <string name="toast_no_connectivity">Will refresh when network available.</string>
+    <string name="toast_invalid_symbol">The stock symbol does not exist. Please try another one.</string>
+    <string name="message_no_history_data">There is no historic data for the stock.</string>
 
     <!-- Content descriptions for accessibility -->
     <string name="description_add_stock">Add a new stock</string>
+    <string name="description_widget_item">Stock Hawk widget</string>
+    <string name="description_price">Price</string>
+    <string name="description_change_percentage">Percentage change</string>
+    <string name="description_change">Absolute change</string>
 
     <!-- Dummy strings, used by to design the UI -->
     <string name="dummy_stock_name" translatable="false">Yahoo Inc.</string>
     <string name="dummy_price" translatable="false">$300.00</string>
+
 
 </resources>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedAttribute"
+    android:initialKeyguardLayout="@layout/layout_stock_widget"
     android:initialLayout="@layout/layout_stock_widget"
     android:minHeight="@dimen/widget_height"
     android:minResizeHeight="@dimen/widget_min_resize_height"
@@ -7,4 +10,4 @@
     android:minWidth="@dimen/widget_width"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
-    android:widgetCategory="home_screen" />
+    android:widgetCategory="home_screen|keyguard" />
