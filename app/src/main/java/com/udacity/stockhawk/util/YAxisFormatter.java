@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.util.Currency;
 import java.util.Locale;
 
 /**
@@ -25,6 +26,7 @@ public class YAxisFormatter implements IAxisValueFormatter {
      * @since 1.0.0 2017/05/18
      */
     public YAxisFormatter(@Nullable Locale locale) {
+        locale = locale != null ? locale : Locale.US;
         this.locale = locale;
     }
 
@@ -33,6 +35,6 @@ public class YAxisFormatter implements IAxisValueFormatter {
      */
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        return AppUtils.formatMoney(value, locale, false);
+        return AppUtils.formatMoney(value, locale, false) + " " +Currency.getInstance(locale);
     }
 }

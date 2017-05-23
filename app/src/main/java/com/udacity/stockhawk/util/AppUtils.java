@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Locale;
 
 /**
@@ -34,6 +35,8 @@ public final class AppUtils {
             dollarFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(useLocale);
             dollarFormat.setPositivePrefix("+$");
         }
+
+        dollarFormat.setCurrency(Currency.getInstance(useLocale));
 
         return dollarFormat.format(floatValue);
     }

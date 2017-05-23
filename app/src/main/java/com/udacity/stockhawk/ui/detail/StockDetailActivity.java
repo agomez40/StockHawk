@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -239,6 +240,11 @@ public class StockDetailActivity extends AppCompatActivity implements LoaderMana
 
         LineData lineData = new LineData(lineDataSet);
         chart.setData(lineData);
+
+        // remove description
+        Description desc = new Description();
+        desc.setEnabled(false);
+        chart.setDescription(desc);
 
         // XAxis
         XAxisFormatter xAxisFormatter = new XAxisFormatter(historyEntries, null, null);
