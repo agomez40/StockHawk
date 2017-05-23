@@ -63,7 +63,6 @@ public final class QuoteSyncJob {
         Timber.d("Running sync job");
 
         Calendar from = Calendar.getInstance();
-        Calendar to = Calendar.getInstance();
         from.add(Calendar.YEAR, -YEARS_OF_HISTORY);
 
         try {
